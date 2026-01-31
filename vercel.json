@@ -1,0 +1,6 @@
+{
+    "buildCommand": "cd northwest-ui && npm install && npm run build",
+    "outputDirectory": "northwest-ui/dist",
+    "installCommand": "cd northwest-ui && npm install",
+    "framework": "vite"
+}
