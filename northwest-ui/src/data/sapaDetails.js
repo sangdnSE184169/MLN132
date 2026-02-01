@@ -19,7 +19,7 @@ const sapaDetails = {
             title: "Thổ cẩm người Dao đỏ",
             subtitle: "Lửa đỏ giữa mây trắng",
             description: "Giữa bạt ngàn xanh thẳm, sắc đỏ của người Dao như ngọn lửa không bao giờ tắt. Mỗi đường thêu kể một câu chuyện - hình con chó trung thành, cây thông bất khuất, chiếc lá phiêu bồng. Đó là gia phả bằng chỉ màu của cả một dân tộc.",
-            image: "https://cdnphoto.dantri.com.vn/nSQnIBmYQT_2frWjcU66APM65OQ=/thumb_w/1020/2022/11/22/sac-mau-tho-cam-cua-nguoi-dao-do-o-sapadocx-1669084738895.png",
+            image: "https://vnanet.vn/Data/Articles/2021/03/01/5316552/vna_potal_ha_giang_giu_gin_nghe_det_tho_cam_cua_nguoi_dao_do_o_hoang_su_phi_stand.jpg",
             type: "craft"
         },
         {
@@ -59,7 +59,7 @@ const sapaDetails = {
             title: "Rượu San Lùng",
             subtitle: "Giọt ngọc của trời cho",
             description: "Gạo nếp nương quyện men lá rừng, ủ trong im lặng của núi đồi, chưng cất thành thứ rượu thanh khiết nhất. Người ta bảo đây là rượu dùng để cúng tế Trời. Một ngụm thôi - vị ngọt hậu lan tỏa, hương thơm ngất ngây, lòng chợt thấy mình gần với mây trời hơn.",
-            image: "https://thittraugacbep.com.vn/wp-content/uploads/2024/10/ruou-san-lung-3.jpg",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzQrbi8rgOlpTK_E7_iHVizG0AdE4nQcv9gA&s",
             type: "food"
         },
         {

@@ -2,7 +2,7 @@
 const yTyDetails = {
     id: 4,
     name: "Y Tý",
-    heroImage: "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/10/15/1105038/Y-Ty-4.jpg",
+    heroImage: "https://vcdn1-dulich.vnecdn.net/2023/10/11/yty6-1697013295-8316-1697013345.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=m7TZGJxBEGP0KNzN4lXIUg",
     intro: "Vương quốc của mây, nơi những ngôi nhà nấm khổng lồ mọc lên giữa biển sương bồng bềnh. Đây là xứ sở của người Hà Nhì, giản dị mà đẹp đến nao lòng.",
 
     culturalAspects: [
