@@ -19,7 +19,7 @@ const dienBienDetails = {
             title: "Hố bộc phá nghìn cân trên Đồi A1",
             subtitle: "Tiếng nổ mở cánh cửa chiến thắng",
             description: "Đồi A1 - cứ điểm kiên cố nhất, pháo đài cuối cùng của địch. Khi mọi cách đánh đều bế tắc, quân ta âm thầm đào hầm ngầm suốt 33 ngày đêm, đặt khối bộc phá 1 tấn vào lòng đồi. Chiều 6/5/1954, tiếng nổ vang trời như sấm - hiệu lệnh cho đợt tổng tấn công cuối cùng.",
-            image: "https://cdnphoto.dantri.com.vn/WMkobEQfjBcga_XUYpIaG-p0yR4=/zoom/1200_630/2024/04/29/doi-a1-crop-1714402965378.jpeg",
+            image: "https://images2.thanhnien.vn/528068263637045248/2024/4/23/dien-bien-phu-1-17138827965471891150783.jpg",
             type: "history"
         },
         {
