@@ -5,6 +5,7 @@ import LocationDeck from './components/LocationDeck';
 import LocationDetail from './components/LocationDetail';
 import HeroStorySection from './components/HeroStorySection';
 import StoryReader from './components/StoryReader';
+import Chatbot from './components/Chatbot';
 import locations from './data/locations';
 import muCangChaiDetails from './data/muCangChaiDetails';
 import sapaDetails from './data/sapaDetails';
@@ -91,6 +92,9 @@ function App() {
       {showStory && (
         <StoryReader onClose={handleCloseStory} />
       )}
+
+      {/* AI Chatbot */}
+      <Chatbot />
 
       <style>{`
         .progress-bar {
