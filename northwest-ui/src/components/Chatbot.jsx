@@ -7,204 +7,232 @@ const K2 = 'WGdyb3FYAskGJroOdyKzIKVc069JqTr3';
 const GROQ_API_KEY = K1 + K2;
 const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-const SYSTEM_CONTEXT = `Bạn là một hướng dẫn viên du lịch AI thân thiện và nhiệt tình, chuyên về vùng Tây Bắc Việt Nam. 
-Bạn có kiến thức sâu rộng về:
-- Mù Cang Chải: Ruộng bậc thang nổi tiếng, mùa lúa chín (tháng 9-10)
-- Sapa: Đỉnh Fansipan, bản Cát Cát, chợ tình
-- Mai Châu: Bản Lác, văn hóa người Thái, nhà sàn truyền thống
-- Y Tý: Ruộng bậc thang, săn mây, văn hóa Hà Nhì
-- Điện Biên: Chiến thắng Điện Biên Phủ, di tích lịch sử, văn hóa Thái
+const SYSTEM_CONTEXT = `Bạn là một trợ lý AI đặc biệt, kết hợp hai vai trò: Hướng dẫn viên du lịch Tây Bắc và Giảng viên môn Chủ nghĩa xã hội khoa học.
 
-Hãy trả lời ngắn gọn, thân thiện và hữu ích bằng tiếng Việt. Nếu được hỏi về các địa điểm khác ngoài Tây Bắc, hãy khéo léo gợi ý họ khám phá Tây Bắc.`;
+VAI TRÒ 1: HƯỚNG DẪN VIÊN DU LỊCH TÂY BẮC
+Bạn có kiến thức sâu rộng về:
+- Mù Cang Chải: Ruộng bậc thang, mùa lúa chín (tháng 9-10).
+- Sapa: Đỉnh Fansipan, bản Cát Cát, chợ tình.
+- Mai Châu: Bản Lác, văn hóa Thái, nhà sàn.
+- Y Tý: Săn mây, kiến trúc trình tường Hà Nhì.
+- Điện Biên: Chiến thắng Điện Biên Phủ, di tích lịch sử.
+
+VAI TRÒ 2: GIẢNG VIÊN MÔN CHỦ NGHĨA XÃ HỘI KHOA HỌC
+Bạn là giảng viên môn Chủ nghĩa xã hội khoa học (Scientific Socialism), một trong 3 bộ phận của Chủ nghĩa Mác-Lênin.
+- Giới thiệu: Dựa trên triết học duy vật biện chứng và duy vật lịch sử để giải thích sự ra đời của hình thái kinh tế - xã hội cộng sản chủ nghĩa và sứ mệnh lịch sử của giai cấp công nhân.
+- Mục tiêu môn học:
+  + Kiến thức: Nắm vững cốt lõi của CNXH khoa học.
+  + Kỹ năng: Vận dụng lý luận vào thực tiễn chính trị - xã hội Việt Nam.
+  + Thái độ: Xây dựng lập trường tư tưởng đúng đắn, tư duy phản biện và trách nhiệm xã hội.
+- Nội dung (7 chương): Chương 1 nhập môn; Chương 2-7 về các quy luật của cách mạng XHCN.
+- Yêu cầu sinh viên: Tham gia 80% thời gian, có giáo trình chuẩn, ứng dụng AI có trách nhiệm và đạo đức.
+
+PHONG CÁCH TRẢ LỜI:
+- Trả lời ngắn gọn, súc tích, thân thiện.
+- KHÔNG sử dụng các ký tự định dạng markdown như dấu sao (**), dấu gạch đầu dòng (-) hay dấu thăng (#). Hãy viết thành các đoạn văn liền mạch.
+- Linh hoạt chuyển đổi giữa hai vai trò tùy theo câu hỏi của người dùng.`;
 
 function Chatbot() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([
-        {
-            role: 'assistant',
-            content: 'Xin chào! 👋 Mình là hướng dẫn viên AI của Tây Bắc. Bạn muốn khám phá địa điểm nào?'
-        }
-    ]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const messagesEndRef = useRef(null);
-    const inputRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: 'Xin chào! Mình là trợ lý AI '
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
-    useEffect(() => {
-        if (isOpen && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [isOpen]);
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
-    const sendMessage = async () => {
-        if (!input.trim() || isLoading) return;
+  const sendMessage = async () => {
+    if (!input.trim() || isLoading) return;
 
-        const userMessage = { role: 'user', content: input.trim() };
-        setMessages(prev => [...prev, userMessage]);
-        setInput('');
-        setIsLoading(true);
+    const userMessage = { role: 'user', content: input.trim() };
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
 
-        try {
-            // Build messages array for OpenAI-compatible API
-            const apiMessages = [
-                { role: 'system', content: SYSTEM_CONTEXT },
-                ...messages.map(msg => ({
-                    role: msg.role,
-                    content: msg.content
-                })),
-                { role: 'user', content: userMessage.content }
-            ];
+    try {
+      // Build messages array for OpenAI-compatible API
+      const apiMessages = [
+        { role: 'system', content: SYSTEM_CONTEXT },
+        ...messages.map(msg => ({
+          role: msg.role,
+          content: msg.content
+        })),
+        { role: 'user', content: userMessage.content }
+      ];
 
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${GROQ_API_KEY}`,
-                },
-                body: JSON.stringify({
-                    model: 'openai/gpt-oss-120b',
-                    messages: apiMessages,
-                    temperature: 0.7,
-                    max_tokens: 500,
-                })
-            });
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'openai/gpt-oss-120b',
+          messages: apiMessages,
+          temperature: 0.7,
+          max_tokens: 500,
+        })
+      });
 
-            const data = await response.json();
+      const data = await response.json();
 
-            if (data.choices && data.choices[0]?.message?.content) {
-                const assistantMessage = {
-                    role: 'assistant',
-                    content: data.choices[0].message.content
-                };
-                setMessages(prev => [...prev, assistantMessage]);
-            } else {
-                console.error('API Response:', data);
-                throw new Error('Invalid response');
-            }
-        } catch (error) {
-            console.error('Chatbot error:', error);
-            setMessages(prev => [...prev, {
-                role: 'assistant',
-                content: 'Xin lỗi, mình gặp chút trục trặc. Bạn thử hỏi lại nhé! 😊'
-            }]);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+      if (data.choices && data.choices[0]?.message?.content) {
+        const assistantMessage = {
+          role: 'assistant',
+          content: data.choices[0].message.content
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      } else {
+        console.error('API Response:', data);
+        throw new Error('Invalid response');
+      }
+    } catch (error) {
+      console.error('Chatbot error:', error);
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Xin lỗi, mình gặp chút trục trặc. Bạn thử hỏi lại nhé! 😊'
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
-    return (
-        <>
-            {/* Floating Button */}
-            <motion.button
-                className="chatbot-toggle"
-                onClick={() => setIsOpen(!isOpen)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                animate={{ rotate: isOpen ? 45 : 0 }}
-            >
-                {isOpen ? '✕' : '💬'}
-            </motion.button>
+  const formatMessage = (content) => {
+    if (!content) return '';
+    return content
+      .replace(/\*\*/g, '')      // Remove bold
+      .replace(/###\s?/g, '')    // Remove H3
+      .replace(/##\s?/g, '')     // Remove H2
+      .replace(/^#\s?/gm, '')    // Remove H1
+      .replace(/- /g, '')        // Remove bullet points
+      .replace(/\n/g, ' ')       // Replace newlines with space
+      .replace(/\s+/g, ' ')      // Collapse multiple spaces
+      .trim();
+  };
 
-            {/* Chat Window */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        className="chatbot-window"
-                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        {/* Header */}
-                        <div className="chatbot-header">
-                            <div className="chatbot-avatar">🏔️</div>
-                            <div className="chatbot-info">
-                                <h4>Hướng dẫn viên Tây Bắc</h4>
-                                <span className="chatbot-status">
-                                    <span className="status-dot"></span>
-                                    Online
-                                </span>
-                            </div>
-                        </div>
+  return (
+    <>
+      {/* Floating Button */}
+      <motion.button
+        className="chatbot-toggle"
+        onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        animate={{ rotate: isOpen ? 45 : 0 }}
+      >
+        {isOpen ? '✕' : '💬'}
+      </motion.button>
 
-                        {/* Messages */}
-                        <div className="chatbot-messages">
-                            {messages.map((msg, index) => (
-                                <motion.div
-                                    key={index}
-                                    className={`chat-message ${msg.role}`}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                >
-                                    {msg.role === 'assistant' && (
-                                        <div className="message-avatar">🏔️</div>
-                                    )}
-                                    <div className="message-bubble">
-                                        {msg.content}
-                                    </div>
-                                </motion.div>
-                            ))}
+      {/* Chat Window */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="chatbot-window"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Header */}
+            <div className="chatbot-header">
+              <div className="chatbot-avatar">🏔️</div>
+              <div className="chatbot-info">
+                <h4>AI Assistant</h4>
+                <span className="chatbot-status">
+                  <span className="status-dot"></span>
+                  Online
+                </span>
+              </div>
+            </div>
 
-                            {isLoading && (
-                                <motion.div
-                                    className="chat-message assistant"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                >
-                                    <div className="message-avatar">🏔️</div>
-                                    <div className="message-bubble typing">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </motion.div>
-                            )}
-                            <div ref={messagesEndRef} />
-                        </div>
+            {/* Messages */}
+            <div className="chatbot-messages">
+              {messages.map((msg, index) => (
+                <motion.div
+                  key={index}
+                  className={`chat-message ${msg.role}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  {msg.role === 'assistant' && (
+                    <div className="message-avatar">🏔️</div>
+                  )}
+                  <div className="message-bubble">
+                    {msg.role === 'assistant' ? formatMessage(msg.content) : msg.content}
+                  </div>
+                </motion.div>
+              ))}
 
-                        {/* Input */}
-                        <div className="chatbot-input-container">
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                className="chatbot-input"
-                                placeholder="Hỏi về Tây Bắc..."
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                disabled={isLoading}
-                            />
-                            <motion.button
-                                className="chatbot-send"
-                                onClick={sendMessage}
-                                disabled={!input.trim() || isLoading}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                ➤
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+              {isLoading && (
+                <motion.div
+                  className="chat-message assistant"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <div className="message-avatar">🏔️</div>
+                  <div className="message-bubble typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </motion.div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
 
-            <style>{`
+            {/* Input */}
+            <div className="chatbot-input-container">
+              <input
+                ref={inputRef}
+                type="text"
+                className="chatbot-input"
+                placeholder="Ask anything..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={isLoading}
+              />
+              <motion.button
+                className="chatbot-send"
+                onClick={sendMessage}
+                disabled={!input.trim() || isLoading}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ➤
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
         .chatbot-toggle {
           position: fixed;
           bottom: 24px;
@@ -439,8 +467,8 @@ function Chatbot() {
           }
         }
       `}</style>
-        </>
-    );
+    </>
+  );
 }
 
 export default Chatbot;

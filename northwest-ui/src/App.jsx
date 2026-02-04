@@ -6,6 +6,7 @@ import LocationDetail from './components/LocationDetail';
 import HeroStorySection from './components/HeroStorySection';
 import StoryReader from './components/StoryReader';
 import Chatbot from './components/Chatbot';
+import Credits from './components/Credits';
 import locations from './data/locations';
 import muCangChaiDetails from './data/muCangChaiDetails';
 import sapaDetails from './data/sapaDetails';
@@ -21,11 +22,13 @@ const locationDetailsMap = {
   3: maiChauDetails,
   4: yTyDetails,
   5: dienBienDetails,
+  6: dienBienDetails,
 };
 
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [showStory, setShowStory] = useState(false);
+  const [showCredits, setShowCredits] = useState(false);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -57,6 +60,16 @@ function App() {
     document.body.style.overflow = 'auto';
   };
 
+  const handleOpenCredits = () => {
+    setShowCredits(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleCloseCredits = () => {
+    setShowCredits(false);
+    document.body.style.overflow = 'auto';
+  };
+
   return (
     <div className="app-container">
       <motion.div
@@ -79,6 +92,22 @@ function App() {
 
       <footer>
         <p>© 2026 Tây Bắc Việt Nam. Inspired by Google Arts & Culture.</p>
+        <button
+          className="credits-trigger"
+          onClick={handleOpenCredits}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--color-accent)',
+            cursor: 'pointer',
+            fontSize: '0.9rem',
+            marginTop: '0.5rem',
+            textDecoration: 'underline',
+            opacity: 0.8
+          }}
+        >
+          Project Credits
+        </button>
       </footer>
 
       {selectedLocation && (
@@ -91,6 +120,11 @@ function App() {
       {/* Story Reader Modal */}
       {showStory && (
         <StoryReader onClose={handleCloseStory} />
+      )}
+
+      {/* Credits Overlay */}
+      {showCredits && (
+        <Credits onClose={handleCloseCredits} />
       )}
 
       {/* AI Chatbot */}
@@ -113,6 +147,10 @@ function App() {
           padding: 4rem 2rem;
           opacity: 0.6;
           font-size: 0.9rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
         }
       `}</style>
     </div>
