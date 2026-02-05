@@ -21,11 +21,7 @@ const Credits = ({ onClose }) => {
 
             <div className="credits-content">
                 <div className="credits-scroll-container">
-                    {/* Project Title */}
-                    <div className="credits-section">
-                        <h1 className="credits-title">Northwest UI</h1>
-                        <div className="credits-role">A Journey Through Northern Vietnam</div>
-                    </div>
+
 
                     {/* Team Members */}
                     <div className="credits-section">
